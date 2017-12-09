@@ -39,35 +39,22 @@ namespace Hephaestus.Player.Controller{
         /// <summary>
         /// Called once a frame
         /// </summary>
-        public void Update()
+        public void FixedUpdate()
         {
-            Vector3 targetPosition = new Vector3(this.gameObject.transform.position.x + (targetVector.x * 5), this.gameObject.transform.position.y, this.gameObject.transform.position.z + (targetVector.z * 5));
-            gameObject.transform.position = Vector3.Lerp(transform.position, targetPosition, 0.01f);
+            GetInput();
+            ///Set target position by adding targetVector to current vector
+            Vector3 targetPosition = new Vector3(this.gameObject.transform.position.x + targetVector.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z + targetVector.z);
+
+            ///Smooth between current position and target position
+            gameObject.transform.position = Vector3.Lerp(transform.position, targetPosition, 0.1f);
             targetVector = new Vector3(targetVector.x / 2, targetVector.y, targetVector.z / 2);
         }
-        
-        private void OnGUI()
+
+        private void GetInput()
         {
-            e = Event.current;
-            if (e.isKey)
-            {
-                KeyCode input = e.keyCode;
-                switch (input)
-                {
-                    case KeyCode.A:
-                        this.targetVector = new Vector3(-3, targetVector.y, targetVector.z);
-                        break;
-                    case KeyCode.D:
-                        this.targetVector = new Vector3(3, targetVector.y, targetVector.z);
-                        break;
-                    case KeyCode.W:
-                        this.targetVector = new Vector3(targetVector.x, targetVector.y, 3);
-                        break;
-                    case KeyCode.S:
-                        this.targetVector = new Vector3(targetVector.x, targetVector.y, -3);
-                        break;
-                }
-            }
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            targetVector = new Vector3(targetVector.x + horizontal, 0, targetVector.z + vertical);
         }
 
         /// <summary>
