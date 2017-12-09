@@ -2,6 +2,7 @@
 using Assets.Scripts.Enums;
 using Hephaestus.CamaeraManagement;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 
@@ -14,6 +15,15 @@ namespace Hephaestus.Player.Controller{
         public PlayerCameraEnum CameraChoice;
         private PersonalCameraController cameraController;
         private Rigidbody rb;
+        private Event e;
+
+        private Vector3 targetVector;
+        private bool left;
+        private bool right;
+        private bool forward;
+        private bool backward;
+
+        public float playerSpeed = 2;
         ////private Camera selectedCamera;
         ////private Camera externalCamera;
         #endregion
@@ -31,7 +41,33 @@ namespace Hephaestus.Player.Controller{
         /// </summary>
         public void Update()
         {
-
+            Vector3 targetPosition = new Vector3(this.gameObject.transform.position.x + (targetVector.x * 5), this.gameObject.transform.position.y, this.gameObject.transform.position.z + (targetVector.z * 5));
+            gameObject.transform.position = Vector3.Lerp(transform.position, targetPosition, 0.01f);
+            targetVector = new Vector3(targetVector.x / 2, targetVector.y, targetVector.z / 2);
+        }
+        
+        private void OnGUI()
+        {
+            e = Event.current;
+            if (e.isKey)
+            {
+                KeyCode input = e.keyCode;
+                switch (input)
+                {
+                    case KeyCode.A:
+                        this.targetVector = new Vector3(-3, targetVector.y, targetVector.z);
+                        break;
+                    case KeyCode.D:
+                        this.targetVector = new Vector3(3, targetVector.y, targetVector.z);
+                        break;
+                    case KeyCode.W:
+                        this.targetVector = new Vector3(targetVector.x, targetVector.y, 3);
+                        break;
+                    case KeyCode.S:
+                        this.targetVector = new Vector3(targetVector.x, targetVector.y, -3);
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -43,6 +79,7 @@ namespace Hephaestus.Player.Controller{
             rb = GetComponentInChildren<Rigidbody>();
             GameObject gameObjRef = this.gameObject;
             cameraController = new PersonalCameraController(gameObjRef);
+            targetVector = gameObject.transform.position;
         }
     }
 }
