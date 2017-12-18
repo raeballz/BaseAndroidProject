@@ -11,21 +11,12 @@ namespace Hephaestus.Player.Controller{
     [RequireComponent(typeof(Rigidbody))]
     public class RigidBodyPlayerController : MonoBehaviour
     {
-        #region Fields
         public PlayerCameraEnum CameraChoice;
+
+        #region Private Fields
         private PersonalCameraController cameraController;
         private Rigidbody rb;
-        private Event e;
-
         private Vector3 targetVector;
-        private bool left;
-        private bool right;
-        private bool forward;
-        private bool backward;
-
-        public float playerSpeed = 2;
-        ////private Camera selectedCamera;
-        ////private Camera externalCamera;
         #endregion
 
         /// <summary>
@@ -47,6 +38,8 @@ namespace Hephaestus.Player.Controller{
 
             ///Smooth between current position and target position
             gameObject.transform.position = Vector3.Lerp(transform.position, targetPosition, 0.1f);
+
+            ///Decelerate player
             targetVector = new Vector3(targetVector.x / 2, targetVector.y, targetVector.z / 2);
         }
 
@@ -55,6 +48,12 @@ namespace Hephaestus.Player.Controller{
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
             targetVector = new Vector3(targetVector.x + horizontal, 0, targetVector.z + vertical);
+
+            float mouseX = Input.GetAxis("Mouse X");
+            float mouseY = Input.GetAxis("Mouse Y");
+            gameObject.transform.Rotate(0, mouseX, 0);
+            AxisEnum xAxis = AxisEnum.x;
+            cameraController.SetCameraRotation(xAxis, mouseY, CameraChoice);
         }
 
         /// <summary>
