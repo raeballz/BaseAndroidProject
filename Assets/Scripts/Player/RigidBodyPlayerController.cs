@@ -53,7 +53,7 @@ namespace Hephaestus.Player.Controller{
                 case MovementTypeEnum.Raw:
                     transform.position = targetPosition;
                     break;
-                ///Lerp into position
+                ///Lerp into position, actually shite
                 case MovementTypeEnum.Smoothed:
                     gameObject.transform.position = Vector3.Lerp(transform.position, targetPosition, 0.1f);
                     break;
@@ -84,7 +84,9 @@ namespace Hephaestus.Player.Controller{
             ///Keyboard Input
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
-            targetVector = new Vector3(targetVector.x + horizontal, 0, targetVector.z + vertical);
+
+            ///Multiply vector by rotation to move forward relative to where we are looking
+            targetVector = gameObject.transform.rotation * new Vector3(targetVector.x + horizontal, 0, targetVector.z + vertical);
 
             ///Mouse Input
             float mouseX = Input.GetAxis("Mouse X");

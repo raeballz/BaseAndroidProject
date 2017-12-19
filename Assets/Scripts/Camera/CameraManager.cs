@@ -156,7 +156,7 @@ namespace Hephaestus.CamaeraManagement
         /// </summary>
         /// <param name="choice"></param>
         /// <returns></returns>
-        private Camera GetCameraFromEnum(PlayerCameraEnum choice)
+        public Camera GetCameraFromEnum(PlayerCameraEnum choice)
         {
             switch (choice)
             {
