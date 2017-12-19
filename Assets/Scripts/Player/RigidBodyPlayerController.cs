@@ -14,11 +14,17 @@ namespace Hephaestus.Player.Controller{
         /// <summary>
         /// Player choice of first or third person camera
         /// </summary>
+        /// <remarks>
+        /// Set In Editor
+        /// </remarks>
         public PlayerCameraEnum CameraChoice;
 
         /// <summary>
         /// Represents if lerped or raw movement
         /// </summary>
+        /// <remarks>
+        /// Set In Editor
+        /// </remarks>
         public MovementTypeEnum MovementType;
 
         #region Private Fields
@@ -30,10 +36,11 @@ namespace Hephaestus.Player.Controller{
         /// <summary>
         /// Player Control Set Up
         /// </summary>
-        public void Start () {
+        public void Start ()
+        {
             InitaliseFields();
             cameraController.SetPlayerPerspective(CameraChoice);
-	    }
+        }
 
         /// <summary>
         /// Called once a frame
