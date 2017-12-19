@@ -79,6 +79,29 @@ namespace Hephaestus.CamaeraManagement
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <param name="angleToChangeTo"></param>
+        /// <param name="camera"></param>
+        public void SetCameraRotation(AxisEnum axis, float angleToChangeTo, PlayerCameraEnum camera)
+        {
+            Camera cameraToChange = GetCameraFromEnum(camera);
+            switch (axis)
+            {
+                case AxisEnum.x:
+                    cameraToChange.transform.Rotate(angleToChangeTo, 0, 0);
+                    break;
+                case AxisEnum.y:
+                    cameraToChange.transform.Rotate(0, angleToChangeTo, 0);
+                    break;
+                case AxisEnum.z:
+                    cameraToChange.transform.Rotate(0, 0, angleToChangeTo);
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Sets the Camera Manager's Child Cameras to the 
         /// child cameras of the object handed to it.
         /// </summary>
@@ -125,6 +148,31 @@ namespace Hephaestus.CamaeraManagement
                         Debug.Log("Can't assign camera, no enumerator or init check for name.");
                         break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Returns a camera from the enum handed to it
+        /// </summary>
+        /// <param name="choice"></param>
+        /// <returns></returns>
+        public Camera GetCameraFromEnum(PlayerCameraEnum choice)
+        {
+            switch (choice)
+            {
+                case PlayerCameraEnum.FPSCamera:
+                    return FirstPersonCamera;
+                    break;
+                case PlayerCameraEnum.ThirdPersonCamera:
+                    return ThirdPersonCamera;
+                    break;
+                //case "ExternalCamera":
+                //externalCamera = camera;
+                //break;
+                default:
+                    Debug.Log("Can't assign camera, no enumerator or init check for name.");
+                    return new Camera();
+                    break;
             }
         }
     }
