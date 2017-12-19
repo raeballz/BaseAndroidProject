@@ -11,6 +11,7 @@ namespace Assets.Scripts.Enums
     public enum MovementTypeEnum
     {
         Smoothed = 0,
-        Raw = 1
+        Raw = 1,
+        RigidBody = 2
     }
 }
